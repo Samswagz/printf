@@ -6,42 +6,41 @@
   * c: displays character values
   * s: displays string values
   * %: modulo
-  * Return :always (success)
+  * Return: Always (success)
  */
 int _printf(const char *format, ...)
 {
+	int count ;
 	va_list args;
-	int counter = 0;
+	count = 0;
 
-	va_start(args,format);
+	va_start(args, format);
 
-	if (format || format[0])
-	{
+	if (!format || !format[0])
+
 		return (-1);
-	}
 	while (*format != '\0')
 	{
 		if (*format == '%')
 		{
 			format++;
-		
 		if (*format == '\0')
-		{
-			return (-1);
-		}
-		while (*format == ' ')
+			{
+				return (-1);
+			}
+			while (*format == ' ')
+				format++;
+			format = format_navigation(format, args, &count);
 			format++;
-		format = format_nav(format, args, &counter);
-		format++;
 		}
 		else
 		{
 			_putchar(*format);
 			format++;
-			counter++;
+			count++;
 		}
 	}
-	va_end(args);
-	return (counter);
-}
 
+	va_end(args);
+	return (count);
+}
